@@ -1,0 +1,29 @@
+/** CSS de l'emploi du temps */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+.group-title {
+  color: #6F7DA9;
+  padding-top: 1rem;
+}
+
+.schedule {
+  border-radius: 10px;
+  margin-bottom: 0;
+  max-height: 86vh;
+  position: relative;
+}
+
+.table-responsive {
+  max-height: 80vh;
+}
+
+#time {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bolder;
+  font-size: 4rem;
+  padding-left: 40rem;
+}
+
+#date {
+  text-transform: capitalize;
+}

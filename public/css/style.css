@@ -1,0 +1,73 @@
+:root {
+    font-size: 16px;
+    --color-button-text: #fff;
+    --color-primary-100: #151a21;
+    --color-primary-200: #242c37;
+    --color-primary-300: #323d4d;
+    --color-primary-600: #5d7290;
+    --color-primary-700: #b2bdcd;
+    --color-primary-800: #dee3ea;
+    --color-primary-900: #fff;
+    --color-secondary-washed-out: #879eed;
+    --color-secondary: #6c7ae0;
+    --color-accent-glow: rgba(253,77,77,0.3);
+    --color-accent: #fd4d4d;
+    --color-accent-hover: #fd6868;
+    --color-accent-disabled: #f5bfbf;
+}
+
+@keyframes slidein {
+  0%, 30%     { -webkit-transform: translateY(0%); }
+  30%, 40%     { -webkit-transform: translateY(0%); }
+  40%, 50%    { -webkit-transform: translateY(-12.5%); }
+  50%, 60%    { -webkit-transform: translateY(-12.5%); }
+
+  60%, 70%    { -webkit-transform: translateY(-25%); }
+  70%, 80%    { -webkit-transform: translateY(-25%); }
+
+  80%, 90%    { -webkit-transform: translateY(-50%); }
+  90%, 100%    { -webkit-transform: translateY(-50%); }
+}
+
+table {
+  background-color: var(--color-button-text);
+}
+
+thead, thead tr {
+    background-color: var(--color-secondary);
+    color: var(--color-button-text);
+}
+
+td, th {
+  border: none !important;
+}
+
+tr {
+  font-family: 'Lato', sans-serif;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f6ff !important;
+}
+
+th.no-sort {
+  pointer-events: none;
+}
+
+th.no-sort::after {
+  content: '' !important;
+}
+
+th.no-sort > * {
+  pointer-events: all;
+}
+
+.table-responsive {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.info {
+  width: 100%;
+  height: 100%;
+}

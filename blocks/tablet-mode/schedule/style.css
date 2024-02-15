@@ -1,0 +1,14 @@
+.schedule-view {
+	background: #3f39ff;
+	padding: 45px;
+	text-align: center;
+	border-radius: 10px;
+}
+
+.schedule-view-content {
+	font-family: serif;
+	font-size: 24px;
+	color: #fff;
+	padding-bottom: 30px;
+	margin-bottom: 0;
+}
