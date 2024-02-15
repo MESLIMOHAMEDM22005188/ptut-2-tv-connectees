@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo&family=Titillium+Web:wght@300;400;600;700&display=swap');
+
+.blue{
+    background-color: #00A3FF;
+}
+
+.red{
+    background-color: #ff4848;
+}
+
+.orange{
+    background-color: #FF6725;
+}
+
+.yellow{
+    background-color: #eded1a;
+}
+
+.pink{
+    background-color: #FF6FF1;
+}
+
+.green{
+    background-color: #6CD088;
+}
+
+.container-horaire{
+    height: 60px;
+    grid-column: span 2;
+    background-color: #7ed7f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+}
+
+.container-body {
+    margin: 0 2.5vw;
+    width: 95vw;
+    height: 60vh;
+    display: grid;
+    column-gap: 30px;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(8,10vw);
+    grid-row-gap: 20px;
+    grid-template-rows: repeat(8,125px);
+}
+
+.container-matiere{
+    display: grid;
+    align-items: center;
+    grid-template-rows: 20% 20% 60%;
+    flex-direction: column;
+    border-radius: 20px;
+    height: 200px;
+    position: relative;
+    color: #ededed;
+}
+
+.container-matiere > * {
+    z-index: 2;
+}
+
+.container-matiere::after{
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    content: ' ';
+    z-index: 0;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(73, 73, 73, 0.00) 0%, rgba(73, 73, 73, 0.28) 49.48%, rgba(73, 73, 73, 0.40) 100%);
+}
+
+#text-horaire{
+    text-align: center;
+    font-family: Titillium Web, serif;
+    font-size: 29px;
+    font-weight: 700;
+    color: #3d3d3d;
+    text-shadow: 0px 4px 4px rgba(255, 255, 255, 0.25);
+}
+
+.text-matiere{
+    padding-top: 7px;
+}
+
+.text-prof, .text-matiere{
+    font-size: 24px;
+    padding: 0 10px;
+    line-height: 1em;
+    text-align: center;
+    height: fit-content;
+    margin: 0;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.text-salle{
+    font-size: 32px;
+    text-align: center;
+    padding: 0 10px;
+    margin-top: 35px;
+    letter-spacing: 1px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-weight: bold;
+}
+
+#room-choice-form{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+#room-choice-form select{
+    width: 300px;
+    height: 65px;
+    text-align: center;
+    font-size: 36px;
+    font-family: "Titillium Web";
+    font-weight: bold;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    background: #D9D9D9;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#room-choice-form input[type=image]{
+    width: 65px;
+    height: 65px;
+    padding: 10px;
+    border: solid 1px;
+    border: none;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #F0AB02;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+main{
+    min-height: 65vh;
+}
+

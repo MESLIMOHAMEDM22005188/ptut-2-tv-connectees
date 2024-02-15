@@ -1,0 +1,118 @@
+
+.blue{
+    background-color: #00A3FF;
+}
+
+.red{
+    background-color: #ff4848;
+}
+
+.orange{
+    background-color: #FF6725;
+}
+
+.yellow{
+    background-color: #eded1a;
+}
+
+.pink{
+    background-color: #FF6FF1;
+}
+
+.green{
+    background-color: #6CD088;
+}
+
+.text-horaire{
+    text-align: center;
+    font-weight: bold;
+}
+
+.hour-text{
+    grid-row: span 2;
+    background-color: #7ED7F7;
+    text-align: center;
+    height: 130px;
+    width: 250px;
+    border-radius:20px ;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#schedule-container{
+    width: 80vw;
+    height: 70vh;
+    display: grid;
+    grid-auto-flow: column;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7.5vh;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-rows: repeat(9,60px);
+    grid-template-columns: repeat(6,250px);
+    justify-content: center;
+}
+
+.container-matiere{
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+    color: white;
+    width: 225px;
+    text-align: center;
+}
+
+
+
+
+.text-prof, .text-matiere{
+    font-size: 15px !important;
+    height: fit-content;
+    margin: 0;
+    font-weight: 600;
+}
+
+.text-matiere{
+    margin-top: 2px;
+}
+
+.text-prof{
+    font-size: 18px !important;
+}
+
+.text-group{
+    position: absolute;
+    bottom: -7px;
+    padding-top: 5px;
+    font-size: 22px !important;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.container-matiere::after{
+    border-radius: 0 0 20px 20px !important;
+    height: 35px;
+    width: 100%;
+    content: ' ';
+    z-index: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: rgba(0,0,0,0.25) !important;
+}
+
+.container-matiere > *{
+    z-index: 1;
+}
+
+.text-horaire{
+    background-color: #7ED7F7;
+    padding: 10px 0;
+    border-radius: 10px;
+}

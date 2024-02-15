@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium Web');
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to right, #ffa500 50%, #007bff 60%);
+}
+
+body{
+    background-image: url("../img/iut_accueil.jpeg");
+    border-color: #007bff;
+    background-size: 1690px 770px;
+    background-repeat: no-repeat;
+    background-position: 50% -4%;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 115px;
+}
+
+body::before {
+    left: 0;
+    background: linear-gradient(to bottom, #ffa500 50%, #007bff 60%);
+}
+
+body::after {
+    right: 0;
+    background: linear-gradient(to bottom, #007bff 50%, #ffa500 60%);
+}
+
+#logo {
+    height: 100px;
+    display: block;
+    margin: auto;
+    background-color: white;
+}
+
+#bienvenue {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Titillium Web";
+    text-align: center;
+    font-size: 90px;
+    color: white;
+    text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+    1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #007bff;
+    background: linear-gradient(to right, #007bff 50%, #ffa500 60%);
+}

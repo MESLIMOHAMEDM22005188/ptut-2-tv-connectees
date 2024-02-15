@@ -1,0 +1,120 @@
+
+@import url('https://fonts.googleapis.com/css?family=Titillium Web');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');
+* {
+    margin: auto;
+}
+
+#img-boutonretour {
+    height: 10px;
+}
+
+#text-horaire {
+    font-family: 'Titillium Web';
+}
+
+#text-matiere{
+    color: white;
+    font-weight: bold;
+    font-family: 'Titillium Web';
+    text-shadow: 4px 4px 6px rgba(0,0,0,0.6);
+}
+
+#text-matiere-long{
+    color: white;
+    font-weight: bold;
+    font-family: 'Titillium Web';
+    font-size: 25px;
+}
+
+.container-body {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 0.8fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    align-items: center;
+}
+
+#menu-dropdown {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+#dropdown {
+    width: 15vw;
+    height: 5vh;
+    font-size: 30px;
+    text-align: center;
+    box-shadow: 0px 4px 6px -5px #000000;
+}
+
+.container-horaire1 {
+    grid-area: 1 / 1 / 2 / 2;
+    background-color: #7ed7f7;
+    width: 20vw;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.container-matiere1 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    grid-area: 2 / 1 / 3 / 2;
+    background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(238,212,7,1) 43%, rgba(255,229,0,1) 48%);
+    border-radius: 10px;
+    text-align: center;
+    width: 20vw;
+}
+
+.container-horaire2 {
+    grid-area: 1 / 2 / 2 / 2;
+    background-color: #7ed7f7;
+    width: 20vw;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.container-matiere2 {
+    grid-area: 2 / 2 / 3 / 2;
+    background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(255,110,241,1) 43%, rgba(255,110,241,1) 48%);
+    border-radius: 10px;
+    text-align: center;
+    width: 20vw;
+}
+
+.container-horaire3 {
+    grid-area: 1 / 4 / 2 / 3;
+    background-color: #7ed7f7;
+    width: 20vw;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.container-matiere3 {
+    grid-area: 2 / 4 / 3 / 3;
+    background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(0,163,255,1) 43%, rgba(0,163,255,1) 48%);
+    border-radius: 10px;
+    text-align: center;
+    width: 20vw;
+}
+
+.container-horaire4 {
+    grid-area: 1 / 4 / 2 / 4;
+    background-color: #7ed7f7;
+    width: 20vw;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.container-matiere4 {
+    grid-area: 2 / 4 / 3 / 4;
+    background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(255,103,37,1) 43%, rgba(255,103,37,1) 48%);
+    border-radius: 10px;
+    text-align: center;
+    width: 20vw;
+}

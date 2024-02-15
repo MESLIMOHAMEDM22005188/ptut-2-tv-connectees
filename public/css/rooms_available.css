@@ -90,7 +90,7 @@
     background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(255,110,241,1) 43%, rgba(255,110,241,1) 48%);
     border-radius: 10px;
     @import url('https://fonts.googleapis.com/css?family=Titillium Web');
-    @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');}
     * {
         margin: auto;
     }
@@ -207,15 +207,14 @@
         text-align: center;
     }
 
-    .container-matiere4 {
-        grid-area: 2 / 4 / 3 / 4;
-        background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(255,103,37,1) 43%, rgba(255,103,37,1) 48%);
-        border-radius: 10px;
-        text-align: center;
-        width: 20vw;
-    }    text-align: center;
+.container-matiere4 {
+    grid-area: 2 / 4 / 3 / 4;
+    background: linear-gradient(360deg, rgba(88,69,69,1) 0%, rgba(255,103,37,1) 43%, rgba(255,103,37,1) 48%);
+    border-radius: 10px;
+    text-align: center;
     width: 20vw;
 }
+
 
 .container-horaire3 {
     grid-area: 1 / 4 / 2 / 3;
