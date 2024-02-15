@@ -105,19 +105,24 @@ class TeacherView extends UserView
     }
 
     public function displayTeacherDailySchedule($dailySchedule){
+
         $view =
         '<div class="container-body">
             <div class="container-horaire">
                 <h3 id="text-horaire">8h15 - 10h15</h3>
+                
             </div>
             <div class="container-horaire">
                 <h3 id="text-horaire">10h15 - 12h15</h3>
+                
             </div>
             <div class="container-horaire">
                 <h3 id="text-horaire">13h30 - 15h15</h3>
+                
             </div>
             <div class="container-horaire">
                 <h3 id="text-horaire">15h30 - 17h30</h3>
+                
             </div>';
 
         $courseList = $dailySchedule->getCourseList();

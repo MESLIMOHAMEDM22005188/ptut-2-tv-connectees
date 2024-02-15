@@ -324,7 +324,7 @@ class View
         $this->buildModal('Mauvais mot de passe', '<p class=\'alert alert-danger\'>Les deux mots de passe ne sont pas correctes </p>');
     }
 
-    /**
+    /**ca
      * Display a message if an user already exist
      *
      * @param $doubles  array de login

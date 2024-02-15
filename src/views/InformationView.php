@@ -327,9 +327,12 @@ class InformationView extends View
         echo '<div class="myInfoSlides text-center">';
 
         // If the title is empty
-        if ($title != "Sans titre") {
-            echo '<h2 class="display-6 fw-bold" style="font-family: var(--bs-font-sans-serif);">' . $title . '</h2>';
+
+        if ($title !== "Sans titre") {
+            $header = '<h2 class="display-6 fw-bold" style="font-family: var(--bs-font-sans-serif);">{$title}</h2>';
+            echo $header;
         }
+
 
         $url = TV_UPLOAD_PATH;
         if ($adminSite) {
