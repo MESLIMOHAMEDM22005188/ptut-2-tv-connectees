@@ -43,49 +43,5 @@ function kelvinToC(kelvin) {
 function msToKmh(speed) {
     return speed * 3.6;
 }
-// mettre les icons
-function getIcon(weather){
-    switch (weather){
-        case 'Sunny':
-        case 'Clear':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/01d.svg';
-        case 'Partly cloudy':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/02d.svg';
-        case 'Cloudy':
-        case 'Overcast':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/03d.svg';
-        case 'Patchy light snow with thunder':
-        case 'Thundery outbreaks possible':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/04d.svg';
-        case 'Mist':
-        case 'Fog':
-        case 'Freezing fog':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/50d.svg';
-        case 'Patchy rain possible':
-        case 'Patchy light drizzle':
-        case 'Patchy light rain':
-        case 'Light rain':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/10d.svg';
-        case 'Patchy snow possible':
-        case 'Patchy sleet possible':
-        case 'Patchy freezing drizzle possible':
-        case 'Blowing snow':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/13d.svg';
-        case 'Moderate rain at times':
-        case 'Moderate rain':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/15d.svg';
-        case 'Heavy rain at times':
-        case 'Heavy rain':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/16d.svg';
-        case 'Light drizzle':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/14d.svg';
-        case 'Moderate or heavy rain with thunder':
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/17d.svg';
-        default:
-            return '/wp-content/plugins/ptut-2-tv-connectees/public/img/conditions/03d.svg';
 
-    }
-}
-
-refreshWeather();
 refreshWeather();
