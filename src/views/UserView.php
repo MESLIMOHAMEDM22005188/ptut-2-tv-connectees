@@ -254,6 +254,7 @@ class UserView extends View
                 $this->link(add_query_arg(['id' => $user->getId()], home_url('/users/edit')), 'Modifier'),
                 $this->link($delete_url, 'Supprimer')
             ];
+
         }
 
         return $this->displayTable($id, $title, $header, $row, $id, '<a type="submit" class="btn btn-primary" role="button" aria-disabled="true" href="' . home_url('/users/create') . '">Créer</a>');

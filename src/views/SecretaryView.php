@@ -225,8 +225,7 @@ class SecretaryView extends UserView
      * @return string
      */
     public function displayComputerRoomsAvailable($computerRoomList){
-        $view =
-            '<div id="main-container">';
+        $view = '<div id="main-container">';
 
         foreach($computerRoomList as $room){
             $view .= '';
@@ -262,6 +261,18 @@ class SecretaryView extends UserView
         return $view . '</div>';
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     /** Renvoie la view d'une ligne sur l'emplois du temps des année
      * @param WeeklySchedule $weeklySchedule
      * @return string
@@ -290,7 +301,6 @@ class SecretaryView extends UserView
                 }
             }
         }
-
         return $view;
     }
 

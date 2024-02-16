@@ -238,20 +238,26 @@ class SecretaryController extends UserController
      * TODO gestion erreur
      * @return string
      */
-    public function displayYearStudentSchedule(){
+    public function displayYearStudentSchedule()
+    {
         $year = $_GET['year'];
         $model = new CodeAde();
-        switch ($year){
+
+        switch ($year) {
             case '1':
-                return $this->view->displayYearStudentScheduleView($model->getCodeOfAYear(1));
+                $codeList = $model->getCodeOfAYear(1);
+                return $this->view->displayYearStudentScheduleView($codeList);
             case '2':
-                return $this->view->displayYearStudentScheduleView($model->getCodeOfAYear(2));
+                $codeList = $model->getCodeOfAYear(2);
+                return $this->view->displayYearStudentScheduleView($codeList);
             case '3':
-                return $this->view->displayYearStudentScheduleView($model->getCodeOfAYear(3));
+                $codeList = $model->getCodeOfAYear(3);
+                return $this->view->displayYearStudentScheduleView($codeList);
             default:
                 return $this->view->displayYearStudentScheduleView([]);
         }
     }
+
 
     public function displayHomePage(){
         return $this->view->displayHomePage();
