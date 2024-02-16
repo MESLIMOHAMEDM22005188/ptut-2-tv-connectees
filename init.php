@@ -270,7 +270,7 @@ function installDatabaseEcran()
 
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id int(11) NOT NULL,
-            name varchar(50) NOT NULL";
+            name varchar(50) NOT NULL)";
 
     dbDelta($sql);
 
