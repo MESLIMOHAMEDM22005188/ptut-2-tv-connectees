@@ -329,7 +329,14 @@ class SecretaryView extends UserView
      * @param $groupCodeNumbers [1/2/3] Année a affiché
      * @return string
      */
-    public function displayYearStudentScheduleView($groupCodeNumbers){
+    public function displayYearStudentScheduleView($groupCodeNumbers, $year = null){
+        $view = '';
+        setlocale(LC_TIME,'fr_FR.UTF-8');
+        $date = strftime('%A %d %B %Y');
+
+        if ($year !== null){
+            $view = '<div class="day-of-week"><h2>BUT ' . $year . ' - ' . $date . '</h2></div>';
+        }
         $view = '<div id="schedule-container">
                     <div></div>                  
                         <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>                  

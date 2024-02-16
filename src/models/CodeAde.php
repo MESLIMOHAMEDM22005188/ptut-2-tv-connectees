@@ -221,7 +221,6 @@ class CodeAde extends Model implements Entity, JsonSerializable
 
         return $this->setEntityList($request->fetchAll(PDO::FETCH_ASSOC));
     }
-
     public function getCodeName($code){
         $request = $this->getDatabase()->prepare('SELECT title FROM ecran_code_ade WHERE code=? LIMIT 100');
         $request->execute([$code]);
