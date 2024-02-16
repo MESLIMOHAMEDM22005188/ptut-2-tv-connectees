@@ -103,13 +103,20 @@ class RoomController extends UserController {
         return "<script>location.href = '". home_url('/secretary/computer-rooms') . "'</script>";
     }
 
-    public function displayComputerRoomConfig(){
-        if(isset($_POST['check'])){
-            $this->updateComputerRooms();
-        }
-        $roomList = (new RoomRepository())->getAllRoom();
-        return (new TeacherView())->displaySalleMachineConfig($roomList);
+    public function displayComputerRoomConfig() {
+    if (isset($_POST['check'])) {
+        $this->updateComputerRooms();
     }
+
+    $roomList = (new RoomRepository())->getAllRoom();
+
+    // Tri des salles par nom 
+    usort($roomList, function($a, $b) {
+        return strcmp($a->getName(), $b->getName());
+    });
+
+    return (new TeacherView())->displaySalleMachineConfig($roomList);
+}
 
     /** Met a jours les salles machines
      * @return void
