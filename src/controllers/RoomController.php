@@ -104,19 +104,17 @@ class RoomController extends UserController {
     }
 
     public function displayComputerRoomConfig() {
-    if (isset($_POST['check'])) {
-        $this->updateComputerRooms();
+        if (isset($_POST['check'])) {
+            $this->updateComputerRooms();
+        }
+
+        $roomList = (new RoomRepository())->getAllRoom();
+
+        // Utilisation d'une syntaxe alternative pour le tri
+        usort($roomList, fn($a, $b) => strcmp($a->getName(), $b->getName()));
+
+        return (new TeacherView())->displaySalleMachineConfig($roomList);
     }
-
-    $roomList = (new RoomRepository())->getAllRoom();
-
-    // Tri des salles par nom 
-    usort($roomList, function($a, $b) {
-        return strcmp($a->getName(), $b->getName());
-    });
-
-    return (new TeacherView())->displaySalleMachineConfig($roomList);
-}
 
     /** Met a jours les salles machines
      * @return void

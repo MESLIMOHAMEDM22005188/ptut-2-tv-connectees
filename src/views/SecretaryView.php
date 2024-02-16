@@ -224,37 +224,52 @@ class SecretaryView extends UserView
      * @param Room[] $computerRoomList
      * @return string
      */
-    public function displayComputerRoomsAvailable($computerRoomList){
-        $view =
-            '<div id="main-container">';
+    public function displayComputerRoomsAvailable($computerRoomList) {
+        // Filtrage des salles pour éliminer celles sans nom.
+        $filteredRooms = array_filter($computerRoomList, function($room) {
+            return !empty($room->getName());
+        });
 
-        foreach($computerRoomList as $room){
-            $view .= '';
-            if(!$room->isAvailable()){ // La salle n'est pas disponible
+        // Création d'un tableau pour assurer l'unicité des salles par leur nom.
+        $uniqueRooms = [];
+        foreach ($filteredRooms as $room) {
+            $uniqueRooms[$room->getName()] = $room;
+        }
+
+        //Tri du tableau des salles par nom.
+        uasort($uniqueRooms, function($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
+        $view = '<div id="main-container">';
+
+        foreach ($uniqueRooms as $room) {
+            if (!$room->isAvailable()) { // La salle n'est pas disponible
                 $view .= '<div class="room not-available">';
-            }
-            else if($room->isLocked()){ // La salle est bloqué
+            } else if ($room->isLocked()) { // La salle est bloqué
                 $view .= '<div class="room locked">
-                            <div class="lock-reasons">        
-                                <p>' . $room->getMotifLock() . '</p>' .
-                                '<p>' . date("d/m/Y \à h\hm",strtotime($room->getEndLockDate())) . '</p>' .
-                                '<form action="' . home_url("/secretary/room/unlock") . '" method="post"><input type="hidden" name="roomName" value="' . $room->getName() . '"><input type="submit" value="Deverouiller"></form>' .
-                            '</div>' ;
-            }
-            else{ // La salle est disponible
+                        <div class="lock-reasons">        
+                            <p>' . $room->getMotifLock() . '</p>' .
+                    '<p>' . date("d/m/Y \à h\hm", strtotime($room->getEndLockDate())) . '</p>' .
+                    '<form action="' . home_url("/secretary/room/unlock") . '" method="post">
+                        <input type="hidden" name="roomName" value="' . $room->getName() . '">
+                        <input type="submit" value="Déverrouiller">
+                    </form>' .
+                    '</div>';
+            } else { // La salle est disponible
                 $view .= '<form class="room available" method="post" action="' . home_url("/secretary/lock-room") . '">
-                            <input type="hidden" name=roomName value="' . $room->getName() . '">
-                            <input type="submit" style="position:absolute; opacity: 0; width: 100%; height: 100%">';
+                        <input type="hidden" name="roomName" value="' . $room->getName() . '">
+                        <input type="submit" style="position:absolute; opacity: 0; width: 100%; height: 100%">';
             }
-            $view .= '
-                            <img class="lock-open" src="'. TV_PLUG_PATH . 'public/img/lock-open.png' .'">
-                            <img class="lock-close" src="'. TV_PLUG_PATH . 'public/img/lock-close.png' .'">
-                            <img class="computer-icon" src="'. TV_PLUG_PATH . 'public/img/computer-icon.png' .'">
-                            <h1 class="label-salle">' . $room->getName() . '</h1>';
 
-            if(!$room->isLocked() && $room->isAvailable()){
+            $view .= '<img class="lock-open" src="' . TV_PLUG_PATH . 'public/img/lock-open.png' . '">
+                  <img class="lock-close" src="' . TV_PLUG_PATH . 'public/img/lock-close.png' . '">
+                  <img class="computer-icon" src="' . TV_PLUG_PATH . 'public/img/computer-icon.png' . '">
+                  <h1 class="label-salle">' . $room->getName() . '</h1>';
+
+            if (!$room->isLocked() && $room->isAvailable()) {
                 $view .= '</form>';
-            }else{
+            } else {
                 $view .= '</div>';
             }
         }
@@ -515,6 +530,12 @@ class SecretaryView extends UserView
      * @return void
      */
     public function displayRoomSelection($roomList) : string{
+
+        //Tri par nom
+        usort($roomList, function($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
         $view = '<form id="room-choice-form" method="post" action="' . home_url("/secretary/room-schedule") . '">
                     <select name="roomName" >';
         if(isset($_POST['roomName'])){
