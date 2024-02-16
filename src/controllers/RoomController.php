@@ -110,7 +110,7 @@ class RoomController extends UserController {
 
         $roomList = (new RoomRepository())->getAllRoom();
 
-        // Utilisation d'une syntaxe alternative pour le tri
+        // Tri par nom
         usort($roomList, fn($a, $b) => strcmp($a->getName(), $b->getName()));
 
         return (new TeacherView())->displaySalleMachineConfig($roomList);
