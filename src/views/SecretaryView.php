@@ -379,12 +379,16 @@ class SecretaryView extends UserView
      */
     public function displayComputerRoomSchedule($dailySchedulesList){
         $dayNameList = ['LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI'];
-        $view = '<div id="schedule-container">
-                     <div></div>
-                     <p class="hour-text">8h15 - 10h15</p>
-                     <p class="hour-text">10h15 - 12h15</p>
-                     <p class="hour-text">13h30 - 15h15</p>
-                     <p class="hour-text">15h30 - 17h30</p>';
+                $view = '<div id="schedule-container">
+                    <div></div>                  
+                        <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>   
+                                       
+                        <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>   
+                                                        
+                        <div class="container-horaire"><p id="text-horaire">13h30 - 15h15</h3></div>
+                        
+                        <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>                    
+                    ';
 
         for($i = 0; $i < sizeof($dailySchedulesList); ++$i){
             $dailySchedule = $dailySchedulesList[$i];
