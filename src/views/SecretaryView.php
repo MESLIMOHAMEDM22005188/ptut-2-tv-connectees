@@ -386,8 +386,8 @@ class SecretaryView extends UserView
                      <div></div>
                      <p class="hour-text">8h15 - 10h15</p>
                      <p class="hour-text">10h15 - 12h15</p>
-                     <p class="hour-text">13h30 - 15h15</p>
-                     <p class="hour-text">15h15 - 17h30</p>';
+                     <p class="hour-text">13h30 - 15h30</p>
+                     <p class="hour-text">15h30 - 17h30</p>';
 
         for($i = 0; $i < sizeof($dailySchedulesList); ++$i){
             $dailySchedule = $dailySchedulesList[$i];
@@ -501,7 +501,7 @@ class SecretaryView extends UserView
                 
                 <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>  
                                   
-                <div class="container-horaire"><p id="text-horaire">13h30 - 15h15</p></div> 
+                <div class="container-horaire"><p id="text-horaire">13h30 - 15h30</p></div> 
                          
                 <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>
             ';
