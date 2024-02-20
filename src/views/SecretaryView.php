@@ -346,31 +346,34 @@ class SecretaryView extends UserView
      */
     public function displayYearStudentScheduleView($groupCodeNumbers, $year = null){
         $view = '';
-        setlocale(LC_TIME,'fr_FR.UTF-8');
-        $date = strftime('%A %d %B %Y');
+        setlocale(LC_TIME, 'fr_FR.UTF-8');
+        $date = strftime('%A %d %B %Y'); // Obtient la date actuelle formatée
 
-        if ($year !== null){
-            $view = '<div class="day-of-week"><h2>BUT ' . $year . ' - ' . $date . '</h2></div>';
+        // Si $year est fourni, préparez l'en-tête avec l'année et la date
+        if ($year !== null) {
+            $view .= '<div class="day-of-week"><h2>BUT ' . $year . ' - ' . $date . '</h2></div>';
         }
-        $view = '<div id="schedule-container">
-                    <div></div>                  
-                        <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>                  
-                        <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>                                   
-                        <div class="container-horaire"><p id="text-horaire">13h30 - 15h15</h3></div>
-                        <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>                    
-                    ';
 
-        $groupIndex = 1;
+        // Continuez à construire le reste de la vue
+        $view .= '<div id="schedule-container">
+                <div></div>                  
+                    <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>                  
+                    <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>                                   
+                    <div class="container-horaire"><p id="text-horaire">13h30 - 15h15</p></div>
+                    <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>                    
+             ';
 
-        foreach ($groupCodeNumbers as $groupCodeNumber => $groupName){
-            $view .= '<p class="group-name">' . $groupName . '</p>';
-            $groupIndex++;
+        foreach ($groupCodeNumbers as $groupCodeNumber => $groupName) {
+            $formattedGroupName = preg_replace('/BUT[123]/', '', $groupName);
+            $view .= '<p class="group-name">' . $formattedGroupName . '</p>';
 
             $weeklySchedule = new WeeklySchedule($groupCodeNumber);
             $view .= $this->displayYearGroupRow($weeklySchedule);
         }
 
-        return $view . '</div>';
+        $view .= '</div>'; // Ferme le conteneur principal
+
+        return $view;
     }
 
     /** Affiche l'emplois hebdomadaire du temps d'une salle machine
@@ -384,7 +387,7 @@ class SecretaryView extends UserView
                      <p class="hour-text">8h15 - 10h15</p>
                      <p class="hour-text">10h15 - 12h15</p>
                      <p class="hour-text">13h30 - 15h15</p>
-                     <p class="hour-text">15h30 - 17h30</p>';
+                     <p class="hour-text">15h15 - 17h30</p>';
 
         for($i = 0; $i < sizeof($dailySchedulesList); ++$i){
             $dailySchedule = $dailySchedulesList[$i];
