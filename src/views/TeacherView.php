@@ -117,11 +117,11 @@ class TeacherView extends UserView
                 
             </div>
             <div class="container-horaire">
-                <h3 id="text-horaire">13h30 - 15h30</h3>
+                <h3 id="text-horaire">13h30 - 15h15</h3>
                 
             </div>
             <div class="container-horaire">
-                <h3 id="text-horaire">15h30 - 17h30</h3>
+                <h3 id="text-horaire">15h15 - 17h30</h3>
                 
             </div>';
 
