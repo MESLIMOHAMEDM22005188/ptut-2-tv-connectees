@@ -358,9 +358,10 @@ class SecretaryView extends UserView
         $view .= '<div id="schedule-container">
                 <div></div>                  
                     <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>                  
-                    <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>                                   
-                    <div class="container-horaire"><p id="text-horaire">13h30 - 15h30</p></div>
-                    <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>                    
+                    <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>  
+                    
+                    <div class="container-horaire"><p id="text-horaire">13h30 - 15h15</p></div>
+                    <div class="container-horaire"><p id="text-horaire">15h15- 17h30</p></div>                    
              ';
 
         foreach ($groupCodeNumbers as $groupCodeNumber => $groupName) {
