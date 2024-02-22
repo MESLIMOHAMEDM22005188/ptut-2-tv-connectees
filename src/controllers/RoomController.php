@@ -4,11 +4,13 @@ namespace Controllers;
 
 use Models\CodeAde;
 use Models\DailySchedule;
+use Models\Room;
 use Models\RoomRepository;
 use Models\User;
 use Models\WeeklySchedule;
 use Views\SecretaryView;
 use Views\TeacherView;
+use Models\RoomDetails;
 
 class RoomController extends UserController {
 
@@ -127,6 +129,19 @@ class RoomController extends UserController {
                 $hiddenName = isset($_POST['hidden'][$index]) ? $_POST['hidden'][$index] : '';
                 $model->updateComputerRoom($hiddenName, 1);
             }
+        }
+    }
+
+    public function getRoomDetails($roomName) {
+        $filePath = __DIR__ . '../../data/ROOM-DETAILS.xlsx';
+        $roomDetails = RoomDetails::getFromExcel($roomName, $filePath);
+
+        header('Content-Type: application/json');
+        if ($roomDetails) {
+            echo json_encode($roomDetails);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Room not found']);
         }
     }
 }

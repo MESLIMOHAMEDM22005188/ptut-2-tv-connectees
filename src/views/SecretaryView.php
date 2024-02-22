@@ -2,6 +2,7 @@
 
 namespace Views;
 
+
 use Controllers\UserController;
 use Models\CodeAde;
 use Models\Course;
@@ -10,6 +11,7 @@ use Models\Model;
 use Models\Room;
 use Models\User;
 use Models\WeeklySchedule;
+include_once "room-details.js";
 
 /**
  * Class SecretaryView
@@ -262,6 +264,8 @@ class SecretaryView extends UserView
                         <input type="submit" style="position:absolute; opacity: 0; width: 100%; height: 100%">';
             }
 
+
+
             $view .= '<img class="lock-open" src="' . TV_PLUG_PATH . 'public/img/lock-open.png' . '">
                   <img class="lock-close" src="' . TV_PLUG_PATH . 'public/img/lock-close.png' . '">
                   <img class="computer-icon" src="' . TV_PLUG_PATH . 'public/img/computer-icon.png' . '">
@@ -345,6 +349,9 @@ class SecretaryView extends UserView
      * @return string
      */
     public function displayYearStudentScheduleView($groupCodeNumbers, $year = null){
+        //phpinfo(); utiliser pour trouver où était le php.ini
+
+
         $view = '';
         setlocale(LC_TIME, 'fr_FR.UTF-8');
         $date = strftime('%A %d %B %Y'); // Obtient la date actuelle formatée
@@ -534,10 +541,6 @@ class SecretaryView extends UserView
      */
     public function displayRoomSelection($roomList) : string{
 
-        //Tri par nom
-        usort($roomList, function($a, $b) {
-            return strcmp($a->getName(), $b->getName());
-        });
 
         $view = '<form id="room-choice-form" method="post" action="' . home_url("/secretary/room-schedule") . '">
                     <select name="roomName" >';
@@ -557,19 +560,30 @@ class SecretaryView extends UserView
      * @param string $room
      * @return void
      */
-    public function displayRoomLock($roomName){
+    public function displayRoomLock($roomName) {
+        // Échappez correctement la sortie pour la sécurité
+        $escapedRoomName = esc_attr($roomName); //empeche les caractères spéciaux qui sont transformés en entité HTML
+
         $view = '<div class="lock-room-form-container">
-                    <h3>Verrouiller la salle ' . $roomName .  '</h3>
-                    <form method="post" action="' . home_url("/secretary/room/lock") . '">
-                        <input type="hidden" name="roomName" value="' . $roomName . '">
-                        <label>Motif</label><textarea name="motif"></textarea>
-                        <label>Date de fin</label><input name="endDate" type="datetime-local" required> 
-                        <input type="submit" value="Verrouiller">
-                    </form>
-                 </div>';
+                <h3>Verrouiller la salle ' . esc_html($roomName) . '</h3>
+                <form method="post" action="' . esc_url(home_url("/secretary/room/lock")) . '">
+                    <input type="hidden" name="roomName" value="' . $escapedRoomName . '">
+                    <label>Motif</label><textarea name="motif" required></textarea>
+                    <label>Date de fin</label><input name="endDate" type="datetime-local" required> 
+                    <input type="submit" value="Verrouiller">
+                </form>
+            </div>';
+
+        // Ajoutez un identifiant ou une classe au bouton pour faciliter la sélection en JS
+        $view .= '<button id="view-room-details" data-room-name="' . $escapedRoomName . '">Voir détails</button>';
+
+        $view .= '<div id="roomDetails"></div>'; // L'endroit où les détails de la salle seront affichés
 
         return $view;
     }
+
+
+
 
 
     public function displayAllYearSlider(){
@@ -617,5 +631,17 @@ class SecretaryView extends UserView
                 </form></div>';
          return $view;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

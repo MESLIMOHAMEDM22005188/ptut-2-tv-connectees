@@ -1,6 +1,7 @@
 <?php
 namespace Models;
 
+
 class Room{
 
     private string $name;
@@ -98,6 +99,31 @@ class Room{
         return $this->isSalleMachine = in_array($this, (new RoomRepository())->getAllComputerRooms());
     }
 
+    public function getDetails() {
+        $filePath = 'ROOM-DETAILS.xlsx'; // Assurez-vous que ce chemin est correct
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $roomDetails = [];
+        foreach ($sheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);
+
+            $rowData = [];
+            foreach ($cellIterator as $cell) {
+                if ($cell->getColumn() == 'D' && $cell->getValue() == $this->name) {
+                    $rowData['name'] = $cell->getValue();
+                    $rowData['capacity'] = $sheet->getCell('E' . $cell->getRow())->getValue();
+                    $rowData['equipment'] = $sheet->getCell('F' . $cell->getRow())->getValue();
+                    $rowData['cables'] = $sheet->getCell('G' . $cell->getRow())->getValue();
+                    $roomDetails = $rowData;
+                    break 2; // Sortir des deux boucles car nous avons trouvé notre salle
+                }
+            }
+        }
+
+        return $roomDetails;
+    }
 
 
 

@@ -167,4 +167,25 @@ function move_fileICS_schedule()
     }
 }
 
+function my_plugin_enqueue_scripts() {
+    // Enregistrement et localisation de room-details.js
+    wp_enqueue_script('room-details', plugins_url('public/js/room-details.js', __FILE__), array('jquery'), '1.0.0', true);
+    wp_localize_script('room-details', 'roomDetailsAjax', array(
+        'ajaxurl' => admin_url('admin-ajax.php'), // Notez l'utilisation de 'ajaxurl' tout en minuscules
+    ));
+}
+
+add_action('wp_enqueue_scripts', 'my_plugin_enqueue_scripts');
+
+add_action('wp_ajax_get_room_details', 'handle_ajax_get_room_details');
+add_action('wp_ajax_nopriv_get_room_details', 'handle_ajax_get_room_details');
+
+function handle_ajax_get_room_details() {
+    $roomName = isset($_POST['roomName']) ? sanitize_text_field($_POST['roomName']) : '';
+    $filePath = plugin_dir_path(__FILE__) . 'data/ROOM-DETAILS.xlsx';
+    $roomDetails = Models\RoomDetails::getFromExcel($roomName, $filePath);
+
+    wp_send_json($roomDetails);
+}
+
 require_once 'register-dashboard-forms.php';

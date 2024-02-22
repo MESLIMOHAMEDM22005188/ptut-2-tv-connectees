@@ -14,7 +14,7 @@
   ],
   "require": {
     "ext-pdo": "*",
-    "phpoffice/phpspreadsheet": "^1.6"
+    "phpoffice/phpspreadsheet": "^2.0"
   },
   "autoload": {
     "psr-4": {

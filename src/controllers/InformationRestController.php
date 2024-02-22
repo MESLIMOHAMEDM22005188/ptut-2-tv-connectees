@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Models\Information;
+use Models\Room;
 use WP_Error;
 use WP_REST_Controller;
 use WP_REST_Request;
@@ -103,7 +104,45 @@ class InformationRestController extends WP_REST_Controller
                 'schema' => array($this, 'get_public_item_schema'),
             )
         );
+
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->rest_base . '/(?P<roomName>[\w-]+)', // Ajout du paramètre roomName
+            array(
+                'methods' => WP_REST_Server::READABLE,
+                'callback' => array($this, 'get_room_details'), // Nom de la méthode à appeler
+                'permission_callback' => array($this, 'get_item_permissions_check'),
+                'args' => null,
+            )
+        );
+
     }
+
+
+    public function get_room_details($request) {
+        // Récupérer le nom de la salle depuis la requête
+        $roomName = $request->get_param('roomName');
+
+        // Utiliser le nom de la salle pour récupérer les détails de la salle depuis votre modèle
+        $room = new Room($roomName);
+        $roomDetails = $room->getDetails(); // Utilisez la méthode appropriée pour récupérer les détails de la salle
+
+        // Retourner les détails de la salle au format JSON
+        if ($roomDetails !== false) {
+            // Retourner les détails de la salle au format JSON
+            return new WP_REST_Response($roomDetails, 200);
+        } else {
+            // Retourner une erreur si les détails de la salle n'ont pas été trouvés
+            return new WP_Error('room_not_found', 'Détails de la salle introuvables', array('status' => 404));
+        }
+    }
+
+
+
+
+
+
 
     /**
      * Get a collection of items
