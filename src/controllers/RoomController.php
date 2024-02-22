@@ -110,26 +110,31 @@ class RoomController extends UserController {
             $this->updateComputerRooms();
         }
 
+        // Récupère la liste complète des salles
         $roomList = (new RoomRepository())->getAllRoom();
 
-        // Tri par nom
-        usort($roomList, function($a, $b) {
-            return strcmp($a->getName(), $b->getName());
+        // Filtrer les salles pour exclure celles sans nom
+        $roomList = array_filter($roomList, function($room) {
+            return !empty($room->getName());
         });
 
-        // Élimination des doublons
-        $uniqueRooms = [];
-        foreach ($roomList as $room) {
-            if (!array_key_exists($room->getName(), $uniqueRooms)) {
-                $uniqueRooms[$room->getName()] = $room;
+        // Éliminer les doublons basé sur le nom de la salle
+        $roomList = array_reduce($roomList, function($carry, $room) {
+            if (!isset($carry[$room->getName()])) {
+                $carry[$room->getName()] = $room;
             }
-        }
+            return $carry;
+        }, []);
 
-        // Conversion du tableau associatif en tableau indexé pour la compatibilité avec la vue
-        $uniqueRoomList = array_values($uniqueRooms);
+        // Convertir le tableau associatif en tableau indexé
+        $roomList = array_values($roomList);
 
-        return (new TeacherView())->displaySalleMachineConfig($uniqueRoomList);
+        // Tri par nom
+        usort($roomList, fn($a, $b) => strcmp($a->getName(), $b->getName()));
+
+        return (new TeacherView())->displaySalleMachineConfig($roomList);
     }
+
 
 
     /** Met a jours les salles machines
