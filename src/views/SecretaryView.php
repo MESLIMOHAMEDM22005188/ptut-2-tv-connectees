@@ -227,7 +227,7 @@ class SecretaryView extends UserView
      * @return string
      */
     public function displayComputerRoomsAvailable($computerRoomList) {
-        //
+
 
         //Tri du tableau des salles par nom.
         uasort($computerRoomList, function($a, $b) {
