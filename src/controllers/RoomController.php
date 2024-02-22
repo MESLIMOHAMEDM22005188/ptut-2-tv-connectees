@@ -113,10 +113,24 @@ class RoomController extends UserController {
         $roomList = (new RoomRepository())->getAllRoom();
 
         // Tri par nom
-        usort($roomList, fn($a, $b) => strcmp($a->getName(), $b->getName()));
+        usort($roomList, function($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
 
-        return (new TeacherView())->displaySalleMachineConfig($roomList);
+        // Élimination des doublons
+        $uniqueRooms = [];
+        foreach ($roomList as $room) {
+            if (!array_key_exists($room->getName(), $uniqueRooms)) {
+                $uniqueRooms[$room->getName()] = $room;
+            }
+        }
+
+        // Conversion du tableau associatif en tableau indexé pour la compatibilité avec la vue
+        $uniqueRoomList = array_values($uniqueRooms);
+
+        return (new TeacherView())->displaySalleMachineConfig($uniqueRoomList);
     }
+
 
     /** Met a jours les salles machines
      * @return void

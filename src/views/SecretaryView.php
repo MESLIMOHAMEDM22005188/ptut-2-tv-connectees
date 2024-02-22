@@ -240,8 +240,11 @@ class SecretaryView extends UserView
 
         //Tri du tableau des salles par nom.
         uasort($uniqueRooms, function($a, $b) {
-            return strcmp($a->getName(), $b->getName());
+            return strcasecmp($a->getName(), $b->getName());
         });
+
+
+
 
         $view = '<div id="main-container">';
 
