@@ -11,7 +11,7 @@ use Models\Model;
 use Models\Room;
 use Models\User;
 use Models\WeeklySchedule;
-include_once "room-details.js";
+
 
 /**
  * Class SecretaryView
