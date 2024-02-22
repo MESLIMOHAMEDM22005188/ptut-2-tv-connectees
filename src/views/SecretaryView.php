@@ -227,10 +227,19 @@ class SecretaryView extends UserView
      * @return string
      */
     public function displayComputerRoomsAvailable($computerRoomList) {
+        // Filtrage des salles pour éliminer celles sans nom.
+        $filteredRooms = array_filter($computerRoomList, function($room) {
+            return !empty($room->getName());
+        });
 
+        // Création d'un tableau pour assurer l'unicité des salles par leur nom.
+        $uniqueRooms = [];
+        foreach ($filteredRooms as $room) {
+            $uniqueRooms[$room->getName()] = $room;
+        }
 
         //Tri du tableau des salles par nom.
-        uasort($computerRoomList, function($a, $b) {
+        uasort($uniqueRooms, function($a, $b) {
             return strcasecmp($a->getName(), $b->getName());
         });
 
@@ -239,7 +248,7 @@ class SecretaryView extends UserView
 
         $view = '<div id="main-container">';
 
-        foreach ($computerRoomList as $room) {
+        foreach ($uniqueRooms as $room) {
             if (!$room->isAvailable()) { // La salle n'est pas disponible
                 $view .= '<div class="room not-available">';
             } else if ($room->isLocked()) { // La salle est bloqué

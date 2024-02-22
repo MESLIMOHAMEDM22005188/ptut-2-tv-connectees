@@ -140,6 +140,10 @@ class SecretaryController extends UserController
     public function displayRoomsSelection() : string {
         $model = new RoomRepository();
         $roomList = $model->getAllRoom();
+        //enlever le nom vide
+        $roomList = array_filter($roomList, function($room) {
+            return !empty($room->getName());
+        });
         usort($roomList, function($a, $b) {
             return strcmp($a->getName(), $b->getName());
         });
