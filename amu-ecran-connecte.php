@@ -238,7 +238,7 @@ function my_plugin_enqueue_scripts() {
     // Enregistrement et localisation de room-details.js
     wp_enqueue_script('room-details', plugins_url('public/js/room-details.js', __FILE__), array('jquery'), '1.0.0', true);
     wp_localize_script('room-details', 'roomDetailsAjax', array(
-        'ajaxurl' => admin_url('admin-ajax.php'), // Notez l'utilisation de 'ajaxurl' tout en minuscules
+        'ajaxurl' => admin_url('admin-ajax.php'),
     ));
 }
 
@@ -266,7 +266,7 @@ function mon_plugin_enqueue_scripts() {
         true
     );
 
-    // Passer ajaxurl et un nonce à votre script JS pour les appels AJAX.
+
     wp_localize_script('add-computer-rooms', 'monPluginAjax', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('manage_computer_rooms_nonce') // Crée et passe un nonce pour la vérification
