@@ -301,6 +301,7 @@ function handle_manage_computer_rooms_ajax() {
     // Mise à jour du statut isComputer de la salle
     $success = $roomRepository->updateComputerRoom($roomName, $isComputer);
 
+
     if ($success) {
         $message = $isComputer ? 'La salle a été marquée comme salle informatique.' : 'La salle a été démarquée comme salle informatique.';
         wp_send_json_success(['message' => $message]);
