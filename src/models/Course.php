@@ -19,7 +19,7 @@ class Course
     {
         $this->subject = $subject;
         $this->teacher = $teacher;
-        $this->location = $location;
+        $this->setLocation($location);
 
         if(!empty($duration)) {
             $duration = preg_split("/ - /",$duration);
@@ -29,6 +29,15 @@ class Course
         }
         $this->initGroupName($group);
         $this->isDemiGroupe = false;
+    }
+    public function setLocation(string $location): void
+    {
+        // Vérifiez si $location contient un séparateur indiquant plusieurs salles
+        if(strpos($location, ",") !== false) {
+            $this->location = ""; // Plusieurs salles détectées, ne rien mettre.
+        } else {
+            $this->location = $location; // Une seule salle, ok pour assigner.
+        }
     }
 
     /** Formate le nom des groupes

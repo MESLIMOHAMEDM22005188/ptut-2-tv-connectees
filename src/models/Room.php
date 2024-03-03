@@ -100,7 +100,7 @@ class Room{
     }
 
     public function getDetails() {
-        $filePath = 'ROOM-DETAILS.xlsx'; // Assurez-vous que ce chemin est correct
+        $filePath = '../../data/ROOM-DETAILS.xlsx'; // Assurez-vous que ce chemin est correct
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
         $sheet = $spreadsheet->getActiveSheet();
 

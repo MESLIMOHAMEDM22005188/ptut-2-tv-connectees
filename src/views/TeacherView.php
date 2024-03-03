@@ -106,8 +106,17 @@ class TeacherView extends UserView
 
     public function displayTeacherDailySchedule($dailySchedule){
 
+        $view = '';
+        setlocale(LC_TIME, 'fr_FR.UTF-8');
+        $date = strftime('%A %d %B %Y'); // Obtient la date actuelle formatée
+
+        // Si $year est fourni, préparez l'en-tête avec l'année et la date
+
+
+
         $view =
-        '<div class="container-body">
+            '<div class="day"><h2> '. $date .' </h2></div>
+        <div class="container-body">
             <div class="container-horaire">
                 <h3 id="text-horaire">8h15 - 10h15</h3>
                 

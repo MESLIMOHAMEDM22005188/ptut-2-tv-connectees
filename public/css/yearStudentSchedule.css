@@ -1,7 +1,7 @@
 #schedule-container{
     width: 100vw;
     height: fit-content;
-    margin: 10vh 0;
+    margin: 4vh 0;
     display: grid;
     grid-template-columns: repeat(9,0.1fr);
     grid-column-gap: 20px;
@@ -166,6 +166,19 @@ main{
     background-color: #F0AB02;
     animation: bar-animation 10s infinite;
     border-radius: 10px;
+}
+
+.day{
+    background-color: #7ED7F7;
+    display: flex;
+    justify-content: center;
+    width: 40vw;
+    margin: 0.5rem auto;
+    color: #ffffff;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: 10px 0;
 }
 
 

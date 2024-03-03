@@ -35,21 +35,20 @@ class RoomController extends UserController {
      */
     public function getRoomDailyScheduleList($roomName){
         $codeAde = (new CodeAde())->getAllAdeCode();
-        $roomDailyScheduleList = [];
+        $roomDailyScheduleList = array_fill(0, sizeof((new WeeklySchedule($codeAde[0]))->getDailySchedules()), null); // Assurez-vous que cela reflète le nombre correct de jours
 
-        // Parcours tous les cours possibles
         foreach($codeAde as $code){
             $weeklySchedule = new WeeklySchedule($code);
             for($i = 0; $i < sizeof($weeklySchedule->getDailySchedules()); ++$i){
-                $dailySchedule = $weeklySchedule->getDailySchedules()[$i];
-                if($roomDailyScheduleList[$i] == null){
-                    $roomDailyScheduleList[] = new DailySchedule($dailySchedule->getDate());
+                if($roomDailyScheduleList[$i] === null){
+                    $roomDailyScheduleList[$i] = new DailySchedule($weeklySchedule->getDailySchedules()[$i]->getDate());
                 }
+                $dailySchedule = $weeklySchedule->getDailySchedules()[$i];
                 foreach($dailySchedule->getCourseList() as $course){
-                    if($course == null){
+                    if($course === null){
                         continue;
                     }
-                    if(strpos($course->getLocation(),$roomName) !== false){ // Cours dans la salle recherchée
+                    if(strpos($course->getLocation(), $roomName) !== false){ // Cours dans la salle recherchée
                         if(!in_array($course, $roomDailyScheduleList[$i]->getCourseList())) {
                             $roomDailyScheduleList[$i]->addExistingCourse($course);
                         }
@@ -59,6 +58,7 @@ class RoomController extends UserController {
         }
         return $roomDailyScheduleList;
     }
+
 
     public function displayRoomWeeklySchedule(){
         if(isset($_POST['roomName'])){
@@ -110,8 +110,8 @@ class RoomController extends UserController {
             $this->updateComputerRooms();
         }
 
-        // Récupère la liste complète des salles
-        $roomList = (new RoomRepository())->getAllRoom();
+        // Récupère la liste des salles machines
+        $roomList = (new RoomRepository())->getAllComputerRooms();
 
         // Filtrer les salles pour exclure celles sans nom
         $roomList = array_filter($roomList, function($room) {
@@ -147,6 +147,16 @@ class RoomController extends UserController {
             foreach ($_POST['check'] as $index => $checkValue) {
                 $hiddenName = isset($_POST['hidden'][$index]) ? $_POST['hidden'][$index] : '';
                 $model->updateComputerRoom($hiddenName, 1);
+            }
+        }
+    }
+
+
+    public function addComputerRooms() {
+        if (!empty($_POST['computerRooms'])) {
+            $roomRepository = new RoomRepository();
+            foreach ($_POST['computerRooms'] as $roomName) {
+                $roomRepository->updateComputerRoom($roomName, 1);
             }
         }
     }

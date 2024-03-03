@@ -91,6 +91,8 @@ class TelevisionView extends UserView
          <form method="post" id="registerTvForm">
             <label id="selectId1"> Emploi du temps</label>';
 
+
+
         foreach ($user->getCodes() as $code) {
             $count = $count + 1;
             if ($count == 1) {

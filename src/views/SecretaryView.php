@@ -9,6 +9,7 @@ use Models\Course;
 use Models\DailySchedule;
 use Models\Model;
 use Models\Room;
+use Models\RoomRepository;
 use Models\User;
 use Models\WeeklySchedule;
 
@@ -226,7 +227,7 @@ class SecretaryView extends UserView
      * @param Room[] $computerRoomList
      * @return string
      */
-    public function displayComputerRoomsAvailable($computerRoomList) {
+    /*public function displayComputerRoomsAvailable($computerRoomList) {
         // Filtrage des salles pour éliminer celles sans nom.
         $filteredRooms = array_filter($computerRoomList, function($room) {
             return !empty($room->getName());
@@ -242,8 +243,6 @@ class SecretaryView extends UserView
         uasort($uniqueRooms, function($a, $b) {
             return strcasecmp($a->getName(), $b->getName());
         });
-
-
 
 
         $view = '<div id="main-container">';
@@ -282,6 +281,128 @@ class SecretaryView extends UserView
         }
 
         return $view . '</div>';
+    }*/
+
+    public function displayComputerRoomsAndManageForm($computerRoomList) {
+        // Filtrage des salles pour éliminer celles sans nom et assurer l'unicité des salles par leur nom.
+        $filteredRooms = array_filter($computerRoomList, function($room) {
+            return !empty($room->getName());
+        });
+
+        $uniqueRooms = [];
+        foreach ($filteredRooms as $room) {
+            $uniqueRooms[$room->getName()] = $room;
+        }
+
+        // Tri du tableau des salles par nom.
+        uasort($uniqueRooms, function($a, $b) {
+            return strcasecmp($a->getName(), $b->getName());
+        });
+
+        $view = '<div id="main-container">';
+
+        // Génération de la vue des salles disponibles
+        foreach ($uniqueRooms as $room) {
+            if (!$room->isAvailable()) {
+                $view .= '<div class="room not-available">';
+            } else if ($room->isLocked()) {
+                $view .= '<div class="room locked">
+                <div class="lock-reasons">        
+                    <p>' . $room->getMotifLock() . '</p>' .
+                    '<p>' . date("d/m/Y \à h\hm", strtotime($room->getEndLockDate())) . '</p>' .
+                    '<form action="' . home_url("/secretary/room/unlock") . '" method="post">
+                <input type="hidden" name="roomName" value="' . $room->getName() . '">
+                <input type="submit" value="Déverrouiller">
+            </form>' .
+                    '</div>';
+            } else {
+                $view .= '<form class="room available" method="post" action="' . home_url("/secretary/lock-room") . '">
+                <input type="hidden" name="roomName" value="' . $room->getName() . '">
+                <input type="submit" style="position:absolute; opacity: 0; width: 100%; height: 100%">';
+            }
+
+            $view .= '<img class="lock-open" src="' . TV_PLUG_PATH . 'public/img/lock-open.png' . '">
+          <img class="lock-close" src="' . TV_PLUG_PATH . 'public/img/lock-close.png' . '">
+          <img class="computer-icon" src="' . TV_PLUG_PATH . 'public/img/computer-icon.png' . '">
+          <h1 class="label-salle">' . $room->getName() . '</h1>';
+
+            if (!$room->isLocked() && $room->isAvailable()) {
+                $view .= '</form>';
+            } else {
+                $view .= '</div>';
+            }
+        }
+
+
+
+        $roomRepository = new RoomRepository();
+        $nonComputerRooms = $roomRepository->getAllNonComputerRooms();
+
+
+
+        $allRooms = $roomRepository->getAllRoom();
+
+        // Récupérer les salles informatiques déjà marquées
+        $computerRooms = $roomRepository->getAllComputerRooms();
+
+        // Récupérer les salles qui ne sont pas encore marquées comme salles informatiques
+        $roomsToMark = array_filter($allRooms, function($room) use ($computerRooms) {
+            foreach ($computerRooms as $computerRoom) {
+                if ($room->getName() === $computerRoom->getName()) {
+                    return false; // La salle est déjà marquée comme salle informatique
+                }
+            }
+            return true; // La salle n'est pas encore marquée comme salle informatique
+        });
+
+
+
+        // Filtrage des salles pour éliminer celles sans nom et assurer l'unicité des salles par leur nom.
+        $filteredRooms = array_filter($roomsToMark, function($room) {
+            return !empty($room->getName());
+        });
+
+        $uniqueRoomsnon = [];
+        foreach ($filteredRooms as $room) {
+            $uniqueRoomsnon[$room->getName()] = $room;
+        }
+
+        // Tri du tableau des salles par nom.
+        uasort($uniqueRoomsnon, function($a, $b) {
+            return strcasecmp($a->getName(), $b->getName());
+        });
+
+        // Ajout de la gestion des salles informatiques sans écraser $view
+        $view .= '<h2>Gérer les Salles Informatiques</h2>';
+        $view .= '<form id="addRemoveComputerRoomsForm" method="post">';
+
+        // Section pour marquer une salle existante comme salle informatique
+        $view .= '<div><label for="addComputerRoom">Marquer comme salle informatique : </label>';
+        $view .= '<select id="addComputerRoom" name="roomName">';
+        foreach ($uniqueRoomsnon as $room) {
+            $view .= '<option value="' . esc_attr($room->getName()) . '">' . esc_html($room->getName()) . '</option>';
+        }
+        $view .= '</select>';
+        $view .= '<input type="submit" value="Marquer" name="actionToDo"></div>';
+
+        // Section pour démarquer une salle informatique
+        $view .= '<div><label for="removeComputerRoom">Retirer une salle informatique : </label>';
+        $view .= '<select id="removeComputerRoom" name="roomName">';
+        foreach ($uniqueRooms as $room) {
+            $view .= '<option value="' . esc_attr($room->getName()) . '">' . esc_html($room->getName()) . '</option>';
+        }
+        $view .= '</select>';
+        $view .= '<input type="submit" value="Démarquer" name="actionToDo">';
+        $view .= '</div>';
+
+// Nonce pour la sécurité
+        $view .= wp_nonce_field('manage_computer_rooms_action', 'manage_computer_rooms_nonce', true, false);
+
+        $view .= '</form>';
+        $view .= '</div>';
+
+        return $view;
+
     }
 
     /** Renvoie la view d'une ligne sur l'emplois du temps des année
@@ -361,7 +482,7 @@ class SecretaryView extends UserView
 
         // Si $year est fourni, préparez l'en-tête avec l'année et la date
         if ($year !== null) {
-            $view .= '<div class="day-of-week"><h2>BUT ' . $year . ' - ' . $date . '</h2></div>';
+            $view .= '<div class="day"><h2>BUT ' . $year . ' - ' . $date . '</h2></div>';
         }
 
         // Continuez à construire le reste de la vue
@@ -466,6 +587,7 @@ class SecretaryView extends UserView
      * @param $roomList
      * @return string
      */
+
     public function displayRoomChoice($roomList) : string{
         $view = '<form style="width: 100vw; display:flex;flex-direction:column;align-items: center; gap:20px;padding: 38vh 0; justify-content:center;" method="post" action="' . home_url("/secretary/weekly-computer-room-schedule"). '">
                     <h2 style="font-size: 40px; font-weight: bold">Selectionner une salle a afficher</h2>
@@ -506,8 +628,8 @@ class SecretaryView extends UserView
      * @return string
      */
     public function displayRoomSchedule($dailySchedule){
-            $view =
-                '<div class="container-body">       
+        $view =
+            '<div class="container-body">       
                 <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>
                 
                 <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>  
@@ -517,32 +639,33 @@ class SecretaryView extends UserView
                 <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>
             ';
 
-            $courseList = $dailySchedule->getCourseList();
-            if($courseList == []){ // Pas de cours
-                $view .= '<h3 style="grid-column: span 8; justify-self: center; font-size: 32px"> Pas de cours aujourd\'hui</h2>';
-            }
-            foreach ($courseList as $course) {
-                if ($course != null) { // Cours null = pas de cours a cet horraire
-                    $view .= '<div class="container-matiere green" style="grid-column: span ' . $course->getDuration() . '">
+        $courseList = $dailySchedule->getCourseList();
+        if($courseList == []){ // Pas de cours
+            $view .= '<h3 style="grid-column: span 8; justify-self: center; font-size: 32px"> Pas de cours aujourd\'hui</h2>';
+        }
+        foreach ($courseList as $course) {
+            if ($course != null) { // Cours null = pas de cours a cet horraire
+                $view .= '<div class="container-matiere green" style="grid-column: span ' . $course->getDuration() . '">
                             <p class="text-matiere">' . $course->getSubject() . '</p>
                             <p class="text-prof">' . $course->getTeacher() . '</p>
                             <p class="text-salle">' . $course->getLocation() . '</p>
                         </div>';
-                }else{
-                    $view .= '<div></div>';
-                }
-
+            }else{
+                $view .= '<div></div>';
             }
 
-            $view .= '</div>';
+        }
 
-            return $view;
+        $view .= '</div>';
+
+        return $view;
     }
 
     /**
      * @param Room[] $roomList
      * @return void
      */
+    //BOUTON : SALLES DISPONIBLES
     public function displayRoomSelection($roomList) : string{
 
 
@@ -554,7 +677,7 @@ class SecretaryView extends UserView
         foreach ($roomList as $room){
             $view .= '<option>' . $room->getName() . '</option>';
         }
-          $view .= '</select>
+        $view .= '</select>
                         <input type=image  src="https://cdn-icons-png.flaticon.com/512/694/694985.png">
                 </form>';
         return $view;
@@ -578,10 +701,11 @@ class SecretaryView extends UserView
                 </form>
             </div>';
 
-        // Ajoutez un identifiant ou une classe au bouton pour faciliter la sélection en JS
-        $view .= '<button id="view-room-details" data-room-name="' . $escapedRoomName . '">Voir détails</button>';
 
-        $view .= '<div id="roomDetails"></div>'; // L'endroit où les détails de la salle seront affichés
+        $view .= '<button id="view-room-details" class="details-button" data-room-name="' . $escapedRoomName . '">Voir détails</button>';
+
+        $view .= '<div id="roomDetails" class="room-details-container"></div>';
+        // L'endroit où les détails de la salle seront affichés
 
         return $view;
     }
@@ -618,9 +742,9 @@ class SecretaryView extends UserView
         $view = '<div class="year-container">';
         $view .= '<div class="codeList">
                       <h2>BUT ' . $year . '</h2>';
-                      foreach ($model->getCodeOfAYear($year) as $code){
-                          $view .= '<form method="post"><p>' . $code . '</p><input type="hidden" name="code" value="' . $code . '"><input class="delete-btn" name="deleteAde" value="Supprimer" type="submit" src="https://cdn-icons-png.flaticon.com/512/860/860829.png"></form>';
-                      }
+        foreach ($model->getCodeOfAYear($year) as $code){
+            $view .= '<form method="post"><p>' . $code . '</p><input type="hidden" name="code" value="' . $code . '"><input class="delete-btn" name="deleteAde" value="Supprimer" type="submit" src="https://cdn-icons-png.flaticon.com/512/860/860829.png"></form>';
+        }
         $view .= '</div>';
 
         $view .= '<form method="post" class="add-ade-code-form"><select name="codeAde">';
@@ -633,7 +757,7 @@ class SecretaryView extends UserView
                   <input type="hidden" name="year" value="' . $year . '">
                   <input type="submit" name="addCode" value="Ajouter">
                 </form></div>';
-         return $view;
+        return $view;
     }
 
 

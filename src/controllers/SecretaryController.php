@@ -139,7 +139,9 @@ class SecretaryController extends UserController
 
     public function displayRoomsSelection() : string {
         $model = new RoomRepository();
+
         $roomList = $model->getAllRoom();
+
         //enlever le nom vide
         $roomList = array_filter($roomList, function($room) {
             return !empty($room->getName());
@@ -147,6 +149,7 @@ class SecretaryController extends UserController
         usort($roomList, function($a, $b) {
             return strcmp($a->getName(), $b->getName());
         });
+
 
         return (new SecretaryView())->displayRoomSelection($roomList);
 
@@ -233,7 +236,9 @@ class SecretaryController extends UserController
     public function displayComputerRoomsAvailable(){
         $model = new RoomRepository();
         $roomList = $model->getAllComputerRooms();
-        return $this->view->displayComputerRoomsAvailable($roomList);
+
+        return $this->view->displayComputerRoomsAndManageForm($roomList);
+
     }
 
 

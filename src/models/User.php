@@ -29,7 +29,7 @@ class User extends Model implements Entity, JsonSerializable
     /**
      * @var string
      */
-    private $password;
+    private  $password;
 
     /**
      * @var string
