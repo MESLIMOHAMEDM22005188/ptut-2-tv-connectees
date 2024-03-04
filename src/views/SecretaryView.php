@@ -282,7 +282,6 @@ class SecretaryView extends UserView
 
         return $view . '</div>';
     }*/
-
     public function displayComputerRoomsAndManageForm($computerRoomList) {
         // Filtrage des salles pour éliminer celles sans nom et assurer l'unicité des salles par leur nom.
         $filteredRooms = array_filter($computerRoomList, function($room) {
@@ -299,7 +298,7 @@ class SecretaryView extends UserView
             return strcasecmp($a->getName(), $b->getName());
         });
 
-        $view = '<div id="main-container">';
+        $view = '<div id="main-container" class="gestion-salles-container">';
 
         // Génération de la vue des salles disponibles
         foreach ($uniqueRooms as $room) {
@@ -373,8 +372,9 @@ class SecretaryView extends UserView
         });
 
         // Ajout de la gestion des salles informatiques sans écraser $view
-        $view .= '<h2>Gérer les Salles Informatiques</h2>';
-        $view .= '<form id="addRemoveComputerRoomsForm" method="post">';
+        $view .= '<h2 class="gestion-salles">Gérer les Salles Informatiques</h2>';
+
+        $view .= '<form id="addRemoveComputerRoomsForm" method="post" class="form-gestion-salles">';
 
         // Section pour marquer une salle existante comme salle informatique
         $view .= '<div><label for="addComputerRoom">Marquer comme salle informatique : </label>';
@@ -383,7 +383,8 @@ class SecretaryView extends UserView
             $view .= '<option value="' . esc_attr($room->getName()) . '">' . esc_html($room->getName()) . '</option>';
         }
         $view .= '</select>';
-        $view .= '<input type="submit" value="Marquer" name="actionToDo"></div>';
+        $view .= '<input type="submit" value="Marquer" name="actionToDo" class="bouton bouton-marquer">';
+
 
         // Section pour démarquer une salle informatique
         $view .= '<div><label for="removeComputerRoom">Retirer une salle informatique : </label>';
@@ -392,7 +393,8 @@ class SecretaryView extends UserView
             $view .= '<option value="' . esc_attr($room->getName()) . '">' . esc_html($room->getName()) . '</option>';
         }
         $view .= '</select>';
-        $view .= '<input type="submit" value="Démarquer" name="actionToDo">';
+        $view .= '<input type="submit" value="Démarquer" name="actionToDo" class="bouton bouton-demarquer">';
+
         $view .= '</div>';
 
 // Nonce pour la sécurité
@@ -701,12 +703,12 @@ class SecretaryView extends UserView
                 </form>
             </div>';
 
-
         $view .= '<button id="view-room-details" class="details-button" data-room-name="' . $escapedRoomName . '">Voir détails</button>';
 
         $view .= '<div id="roomDetails" class="room-details-container"></div>';
         // L'endroit où les détails de la salle seront affichés
-
+        $view .= '<img src="../../public/img/locked_room.png">';
+        $view .= '<img class="lock-open" src="' . TV_PLUG_PATH . 'public/img/lock-room.png' . '>';
         return $view;
     }
 
