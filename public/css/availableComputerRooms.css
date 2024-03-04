@@ -139,21 +139,25 @@
     max-width: 100%;
     margin: 0 auto;
     margin-top: -60px;
-    color: red;
+    border-radius: 10px;
+    color: black; /* Couleur du texte */
+    background-color: #17b7ff; /* Couleur de fond */
+    transition: transform 0.3s ease;
 }
+
+.details-button:hover {
+    transform: scale(1.1); /* Ajustez le facteur d'échelle selon vos préférences */
+}
+
 
 .room-details-container {
     width: 80%; /* Largeur de la div */
-    margin-right: auto;
-    margin-left: auto;
+    margin: 0 auto; /* Marges automatiques pour centrer la boîte horizontalement */
     text-align: left; /* Cela va aligner le texte à gauche à l'intérieur de la div */
-
-
     padding: 5px;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgb(23, 183, 255);
 }
-
 
 
