@@ -759,17 +759,4 @@ class SecretaryView extends UserView
                 </form></div>';
         return $view;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
