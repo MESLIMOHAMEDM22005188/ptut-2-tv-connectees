@@ -143,6 +143,13 @@
     background: rgba(0,0,0,0.8);
 }
 
+.locked {
+    width: 50px;
+    position: absolute;
+    left: 36%;
+    transform: translateY(1000%);
+    top: 280px;
+}
 
 
 .details-button {

@@ -585,6 +585,7 @@ class SecretaryView extends UserView
         return $view;
     }
 
+
     /** Affiche la page pour choisir une salle a affiche pour les écrans esclave
      * @param $roomList
      * @return string
@@ -707,8 +708,7 @@ class SecretaryView extends UserView
 
         $view .= '<div id="roomDetails" class="room-details-container"></div>';
         // L'endroit où les détails de la salle seront affichés
-        $view .= '<img src="../../public/img/locked_room.png">';
-        $view .= '<img class="lock-open" src="' . TV_PLUG_PATH . 'public/img/lock-room.png' . '>';
+        $view .= '<img class="locked" src="https://projettv.alwaysdata.net/wp-content/themes/theme-ecran-connecte/assets/images/locked_room.png">';
         return $view;
     }
 
