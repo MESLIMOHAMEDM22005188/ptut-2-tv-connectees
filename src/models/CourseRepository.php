@@ -39,13 +39,14 @@ class CourseRepository extends Model{
         $stmt->execute([$courseColor]);
     }
 
-    public function getCourseColor($courseName) : string{
-        $sql = "SELECT * FROM secretary_courses WHERE name LIKE '%" . $courseName . "%'";
+    public function getCourseColor($courseName) : string {
+        $sql = "SELECT * FROM secretary_courses WHERE name LIKE :courseName";
         $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$courseName]);
+        $stmt->execute(['courseName' => "%{$courseName}%"]);
         if($row = $stmt->fetch()){
             return $row['color'];
         }
         return '#000000';
     }
+
 }

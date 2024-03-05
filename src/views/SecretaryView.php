@@ -373,7 +373,8 @@ class SecretaryView extends UserView
         });
 
         // Ajout de la gestion des salles informatiques sans écraser $view
-        $view .= '<h2>Gérer les Salles Informatiques</h2>';
+        $view .= '<h2 class="gestion-salles">Gérer les Salles Informatiques</h2>';
+
         $view .= '<form id="addRemoveComputerRoomsForm" method="post">';
 
         // Section pour marquer une salle existante comme salle informatique
@@ -383,7 +384,8 @@ class SecretaryView extends UserView
             $view .= '<option value="' . esc_attr($room->getName()) . '">' . esc_html($room->getName()) . '</option>';
         }
         $view .= '</select>';
-        $view .= '<input type="submit" value="Marquer" name="actionToDo"></div>';
+        $view .= '<input type="submit" value="Marquer" name="actionToDo" class="bouton-marquer">';
+
 
         // Section pour démarquer une salle informatique
         $view .= '<div><label for="removeComputerRoom">Retirer une salle informatique : </label>';
@@ -392,7 +394,8 @@ class SecretaryView extends UserView
             $view .= '<option value="' . esc_attr($room->getName()) . '">' . esc_html($room->getName()) . '</option>';
         }
         $view .= '</select>';
-        $view .= '<input type="submit" value="Démarquer" name="actionToDo">';
+        $view .= '<input type="submit" value="Démarquer" name="actionToDo" class="bouton-demarquer">';
+
         $view .= '</div>';
 
 // Nonce pour la sécurité
@@ -491,8 +494,8 @@ class SecretaryView extends UserView
                     <div class="container-horaire"><p id="text-horaire">8h15 - 10h15</p></div>                  
                     <div class="container-horaire"><p id="text-horaire">10h15 - 12h15</p></div>  
                     
-                    <div class="container-horaire"><p id="text-horaire">13h30 - 15h15</p></div>
-                    <div class="container-horaire"><p id="text-horaire">15h15- 17h30</p></div>                    
+                    <div class="container-horaire"><p id="text-horaire">13h30 - 15h30</p></div>
+                    <div class="container-horaire"><p id="text-horaire">15h30 - 17h30</p></div>                    
              ';
 
         foreach ($groupCodeNumbers as $groupCodeNumber => $groupName) {
@@ -565,23 +568,61 @@ class SecretaryView extends UserView
      * @param Course[] $courseList
      * @return void
      */
-    public function displayScheduleConfig($courseList) : string{
-        $view = '<input type="text" id="champ-recherche-cours" placeholder="Rechercher une matière"/>';
+    public function displayScheduleConfig($courseList) : string {
+        $view = '<input type="text" id="champ-recherche-cours" placeholder="Rechercher une matière" onkeyup="searchCourse()"/>';
         $view .= '<form class="course-config-container" method="post">';
-        $index = 0;
 
+        $uniqueCourses = [];
         foreach ($courseList as $course) {
-            $view .= '<div class="course-config" style="background-color: ' . $course->getColor(). '">
-                   <p>' . $course->getSubject() . '</p>
-                   <input type="hidden" name="hidden[' . $index . ']" value="' . $course->getSubject() . '">
-                   <input name="color[' . $index . ']" class="course-config-color-selector" type="color" value="' . $course->getColor() . '">
-              </div>';
+            $uniqueCourses[$course->getSubject()] = $course;
+        }
+
+        // Convertir en tableau indexé pour le tri
+        $indexedCourses = array_values($uniqueCourses);
+
+        // Trier les cours par sujet de manière alphabétique
+        usort($indexedCourses, function($a, $b) {
+            return strcmp($a->getSubject(), $b->getSubject());
+        });
+
+        $index = 0;
+        foreach ($indexedCourses as $course) {
+            $view .= '<div class="course-config" style="background-color: ' . $course->getColor() . '">
+            <p>' . $course->getSubject() . '</p>
+            <input type="hidden" name="hidden[' . $index . ']" value="' . $course->getSubject() . '">
+            <input name="color[' . $index . ']" class="course-config-color-selector" type="color" value="' . $course->getColor() . '">
+        </div>';
             $index++;
         }
 
         $view .= '<input id="submitBtn" type="submit" style="grid-column: 1/-1;" name="modif-color" value="MODIFIER"></form>';
+
+        // Script JavaScript pour la recherche dynamique
+        $view .= '<script>
+        function searchCourse() {
+            var input, filter, form, divs, p, i, txtValue;
+            input = document.getElementById("champ-recherche-cours");
+            filter = input.value.toUpperCase();
+            form = document.querySelector(".course-config-container");
+            divs = form.getElementsByClassName("course-config");
+
+            for (i = 0; i < divs.length; i++) {
+                p = divs[i].getElementsByTagName("p")[0];
+                txtValue = p.textContent || p.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    divs[i].style.display = "";
+                } else {
+                    divs[i].style.display = "none";
+                }
+            }
+        }
+    </script>';
+
         return $view;
     }
+
+
+
 
     /** Affiche la page pour choisir une salle a affiche pour les écrans esclave
      * @param $roomList
