@@ -8,31 +8,37 @@ class Teacher extends User
 {
 
     public function exist($name) : bool {
-        $sql = "SELECT * FROM teacher WHERE name LIKE '%" . $name . "%'";
+        $sql = "SELECT * FROM teacher WHERE name LIKE :name";
         $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$name]);
+        // Utilisatioxn d'un placeholder pour sécuriser la requête
+        $stmt->execute(['name' => "%" . $name . "%"]);
         if($stmt->fetch()){
             return true;
         }
         return false;
     }
 
+
+
     public function add($name) : void {
-        $sql = "INSERT INTO teacher(name) VALUES (?)";
-        $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$name]);
+        if (!$this->exist($name)) {
+            $sql = "INSERT INTO teacher(name) VALUES (:name)";
+            $stmt = self::getConnection()->prepare($sql);
+            $stmt->execute(['name' => $name]);
+        }
     }
 
     public function getTeacherList(){
         $teacherList = [];
-        $sql = "SELECT * FROM teacher";
+        $sql = "SELECT DISTINCT name FROM teacher";
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute();
         while($row = $stmt->fetch()){
             $teacherList[] = $row['name'];
         }
 
-        return $teacherList;
+        return array_unique($teacherList);
+
     }
 
     public function getTeacherSchedule($teacherName){

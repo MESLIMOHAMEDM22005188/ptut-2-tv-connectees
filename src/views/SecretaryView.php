@@ -6,6 +6,7 @@ namespace Views;
 use Controllers\UserController;
 use Models\CodeAde;
 use Models\Course;
+use Models\CourseRepository;
 use Models\DailySchedule;
 use Models\Model;
 use Models\Room;
@@ -569,6 +570,18 @@ class SecretaryView extends UserView
      * @return void
      */
     public function displayScheduleConfig($courseList) : string {
+        // Vérification de la soumission du formulaire et mise à jour des couleurs
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['modif-color'])) {
+            foreach ($_POST['color'] as $index => $color) {
+                $courseName = $_POST['hidden'][$index];
+                // Mise à jour de la couleur du cours dans la base de données
+                (new CourseRepository())->modifyColor($courseName, $color);
+            }
+            // Vous pouvez ajouter ici une redirection ou un message de succès si nécessaire
+            // par exemple : header('Location: votre_page.php');
+            // exit;
+        }
+
         $view = '<input type="text" id="champ-recherche-cours" placeholder="Rechercher une matière" onkeyup="searchCourse()"/>';
         $view .= '<form class="course-config-container" method="post">';
 
@@ -620,6 +633,7 @@ class SecretaryView extends UserView
 
         return $view;
     }
+
 
 
 
